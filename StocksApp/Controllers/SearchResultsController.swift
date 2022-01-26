@@ -8,6 +8,13 @@
 import Foundation
 import UIKit
 
+// delegate to proxy back TableCell data to WatchListController
+// to present specified data
+protocol SearchResultsControllerDelegate: AnyObject
+{
+    func searchResultsViewControllerDidSelect(searchResult: String)
+}
+
 class SearchResultController: UIViewController {
     
     private let tableView: UITableView = {

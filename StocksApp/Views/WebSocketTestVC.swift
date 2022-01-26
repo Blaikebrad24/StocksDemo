@@ -63,9 +63,11 @@ class WebSocketTestVC: UIViewController, URLSessionWebSocketDelegate
         }
 
     }
-    
+
+    // used WEAK SELF to point back to this function "receive()"
+    // on self aka this VC
     func receive() {
-        websocket?.receive(completionHandler: { [weak self] result in
+        websocket?.receive(completionHandler: {[weak self] result in
             switch result {
             case .success(let message):
                 switch message {
