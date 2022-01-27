@@ -17,6 +17,10 @@ protocol SearchResultsControllerDelegate: AnyObject
 
 class SearchResultController: UIViewController {
     
+    weak var delegate: SearchResultsControllerDelegate?
+    
+    private var results: [String] = []
+    
     private let tableView: UITableView = {
         let table = UITableView()
         table.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.identifier)
@@ -42,6 +46,13 @@ class SearchResultController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
+    public func update(with results: [String])
+    {
+        // tell the table to reload
+        //
+        self.results = results
+        tableView.reloadData()
+    }
 }
 
 extension SearchResultController: UITableViewDelegate, UITableViewDataSource{
@@ -57,5 +68,9 @@ extension SearchResultController: UITableViewDelegate, UITableViewDataSource{
         return 10
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // using the protocol instance of SearchResultsControllerDelegate
+        delegate?.searchResultsViewControllerDidSelect(searchResult: "AAPL")
+    }
     
 }

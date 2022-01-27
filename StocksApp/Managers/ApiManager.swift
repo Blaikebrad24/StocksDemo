@@ -18,10 +18,22 @@ final class APIManager {
     
     static let shared = APIManager() // access it App globally
     private struct Constants {
-        static let apiKey = ""
-        static let sandboxApiKey = ""
-        static let baseURL = ""
+        static let apiKey = "c7pcs9iad3ielbt6jrtg"
+        static let sandboxApiKey = "sandbox_c7pcs9iad3ielbt6jru0"
+        static let baseURL = "https://finnhub.io/api/v1/"
     }
+    
+    // ~Mark PUBLIC
+    public func search(query: String, completion: @escaping (Result<[String], Error>) -> Void)
+    {
+        guard let url = url(for: .search, queryParams: ["q":query])
+        else{
+            return
+        }
+        
+    }
+    
+    
     private init()
     {
         
@@ -36,9 +48,27 @@ final class APIManager {
         case invalidUrl
     }
     
+    /*
+     Private Func - URL
+     Purpose - creates a URL string used for API
+     Parameters - endPoint of type enum Endpoint,
+                  queryParams Dictionary(String)
+     
+     */
     private func url(for endpoint: Endpoint, queryParams: [String : String] = [:]) -> URL? {
+        var urlString = Constants.baseURL + endpoint.rawValue
+        var queryItems = [URLQueryItem]()
         
-        return nil
+        // add any parameters to URL
+        for (name, value) in queryParams{
+            queryItems.append(.init(name: name, value: value))
+        }
+        // add Token
+        queryItems.append(.init(name: "token", value: Constants.apiKey))
+        
+        urlString += "?" + queryItems.map{"\($0.name)=\($0.value ?? "")"}.joined(separator: "&")
+        print("\n\(urlString)\n")
+        return URL(string: urlString)
     }
     
     //generic way to make api calls

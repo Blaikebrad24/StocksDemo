@@ -8,7 +8,7 @@
 import UIKit
 
 class WatchListController: UIViewController {
-
+    
     
 
     override func viewDidLoad() {
@@ -18,14 +18,26 @@ class WatchListController: UIViewController {
         setUpSearchController()
         setupTitleView()
     }
-
+    
+    /*
+     Function - Private setUpSearchController
+     Purpose - adds search bar to hierarchy view
+     Parameters - none
+     */
     private func setUpSearchController()
     {
         let resultVC = SearchResultController()
+        resultVC.delegate = self
         let searchVC = UISearchController(searchResultsController: resultVC)
         searchVC.searchResultsUpdater = self
         navigationItem.searchController = searchVC
     }
+    
+    /*
+     Function - Private setupTitleView()
+     Purpose - gets called in viewDidLoad for titleview frame
+     Parameters - none
+     */
     
     private func setupTitleView()
     {
@@ -36,10 +48,28 @@ class WatchListController: UIViewController {
         titleView.addSubview(label)
         navigationItem.titleView = titleView
     }
+    
+
 
 }
 
-// captures the searchController text by every keystroke 
+extension WatchListController: SearchResultsControllerDelegate {
+    func searchResultsViewControllerDidSelect(searchResult: String) {
+        //Present stock details for given selection
+    }
+    
+    
+}
+
+// captures the searchController text by every keystroke
+
+/*
+ Extension WatchListController -> inherits from UISrchRsltUpdating
+ Func updateSearchResults - gets called with every user keystroke in searchbar
+ Purpose - to display relative dynamic list of stocks based on user input
+ Function Parameters - searchController of type UISearchController
+ 
+ */
 extension WatchListController: UISearchResultsUpdating{
     func updateSearchResults(for searchController: UISearchController) {
         guard let query = searchController.searchBar.text,
@@ -47,14 +77,13 @@ extension WatchListController: UISearchResultsUpdating{
               !query.trimmingCharacters(in: .whitespaces).isEmpty else {
                   return
               }
-        
+        print(query)
         // call api here to search
          
         
         // reduce api calls we make
-        
-        // update result controller
-        
+        // update SearchResultController
+        resultsVC.update(with: ["GOOG"])
         
     } // gets called per keystroke
 }
