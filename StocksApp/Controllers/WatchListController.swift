@@ -9,7 +9,7 @@ import UIKit
 
 class WatchListController: UIViewController {
     
-    
+    private var searchTime: Timer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +55,8 @@ class WatchListController: UIViewController {
 
 extension WatchListController: SearchResultsControllerDelegate {
     func searchResultsViewControllerDidSelect(searchResult: SearchResult) {
-        print("Did select: \(searchResult.displaySymbol)")
+        print("Did select: \(searchResult.displaySymbol)") // passed back from SearchResultsController
+        
     }
 
 }
@@ -78,23 +79,27 @@ extension WatchListController: UISearchResultsUpdating{
               }
         print(query)
         // call api here to search
-        APIManager.shared.search(query: query) { result in
-            switch result {
-            case .success(let response):
-                // update resultController with results
-                // want to update on main thread
-                DispatchQueue.main.async {
-                    
-                    resultsVC.update(with: response.result)
+        searchTime?.invalidate()// stops and resets times
+        searchTime = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { _ in
+            APIManager.shared.search(query: query) { result in
+                switch result {
+                case .success(let response):
+                    // update resultController with results
+                    // want to update on main thread
+                    DispatchQueue.main.async {
+                        
+                        resultsVC.update(with: response.result)
+                    }
+                case .failure(let error):
+                    print(error)
                 }
-            case .failure(let error):
-                print(error)
             }
-        }
+        })
         
         // reduce api calls we make
+        
         // update SearchResultController
       
         
-    } // gets called per keystroke
+    } // gets called per keystroke ->API CALL OVERLOAD
 }
