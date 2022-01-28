@@ -54,11 +54,10 @@ class WatchListController: UIViewController {
 }
 
 extension WatchListController: SearchResultsControllerDelegate {
-    func searchResultsViewControllerDidSelect(searchResult: String) {
-        //Present stock details for given selection
+    func searchResultsViewControllerDidSelect(searchResult: SearchResult) {
+        print("Did select: \(searchResult.displaySymbol)")
     }
-    
-    
+
 }
 
 // captures the searchController text by every keystroke
@@ -79,11 +78,23 @@ extension WatchListController: UISearchResultsUpdating{
               }
         print(query)
         // call api here to search
-         
+        APIManager.shared.search(query: query) { result in
+            switch result {
+            case .success(let response):
+                // update resultController with results
+                // want to update on main thread
+                DispatchQueue.main.async {
+                    
+                    resultsVC.update(with: response.result)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
         
         // reduce api calls we make
         // update SearchResultController
-        resultsVC.update(with: ["GOOG"])
+      
         
     } // gets called per keystroke
 }

@@ -23,17 +23,23 @@ final class APIManager {
         static let baseURL = "https://finnhub.io/api/v1/"
     }
     
-    // ~Mark PUBLIC
-    public func search(query: String, completion: @escaping (Result<[String], Error>) -> Void)
+    // MARK: - PUBLIC
+    
+    /*
+     Function - Public Search
+     Purpose -
+     Parameters - query String type, completiong type Result<Success, Error>
+     
+     Returns - completion returns either a result with type SearchResponse(Codable object)
+               or type Error
+     */
+    public func search(query: String, completion: @escaping (Result<SearchResponse, Error>) -> Void)
     {
-        guard let url = url(for: .search, queryParams: ["q":query])
-        else{
-            return
-        }
+        request(url: url(for: .search, queryParams: ["q":query]), expecting: SearchResponse.self, completion: completion)
         
     }
     
-    
+    // MARK: - PRIVATE
     private init()
     {
         

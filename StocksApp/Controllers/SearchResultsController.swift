@@ -12,14 +12,14 @@ import UIKit
 // to present specified data
 protocol SearchResultsControllerDelegate: AnyObject
 {
-    func searchResultsViewControllerDidSelect(searchResult: String)
+    func searchResultsViewControllerDidSelect(searchResult: SearchResult)
 }
 
 class SearchResultController: UIViewController {
     
     weak var delegate: SearchResultsControllerDelegate?
     
-    private var results: [String] = []
+    private var results: [SearchResult] = []
     
     private let tableView: UITableView = {
         let table = UITableView()
@@ -46,7 +46,7 @@ class SearchResultController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
-    public func update(with results: [String])
+    public func update(with results: [SearchResult])
     {
         // tell the table to reload
         //
@@ -58,19 +58,20 @@ class SearchResultController: UIViewController {
 extension SearchResultController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell =  tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.identifier, for: indexPath)
-        
-        cell.textLabel?.text = "AAPL"
-        cell.detailTextLabel?.text = "Apple Inc."
+        let model = results[indexPath.row]
+        cell.textLabel?.text = model.displaySymbol
+        cell.detailTextLabel?.text = model.description
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return results.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // using the protocol instance of SearchResultsControllerDelegate
-        delegate?.searchResultsViewControllerDidSelect(searchResult: "AAPL")
+        let model = results[indexPath.row]
+        delegate?.searchResultsViewControllerDidSelect(searchResult: model)
     }
     
 }

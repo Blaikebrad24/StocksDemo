@@ -21,6 +21,7 @@
 		6042B90B27A1A97B00623D9B /* WebSocketTestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6042B90A27A1A97B00623D9B /* WebSocketTestVC.swift */; };
 		6042B90E27A1FF2B00623D9B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6042B90D27A1FF2A00623D9B /* Extensions.swift */; };
 		6042B91027A208BF00623D9B /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6042B90F27A208BF00623D9B /* SearchResultTableViewCell.swift */; };
+		6042B91227A3344600623D9B /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6042B91127A3344600623D9B /* SearchResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		6042B90A27A1A97B00623D9B /* WebSocketTestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketTestVC.swift; sourceTree = "<group>"; };
 		6042B90D27A1FF2A00623D9B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		6042B90F27A208BF00623D9B /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
+		6042B91127A3344600623D9B /* SearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 		6037BD51279BBFC90004C870 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6042B91127A3344600623D9B /* SearchResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6042B91227A3344600623D9B /* SearchResponse.swift in Sources */,
 				6037BD5F279BCA220004C870 /* HapticsManager.swift in Sources */,
 				6037BD40279BBF0D0004C870 /* WatchListController.swift in Sources */,
 				6042B91027A208BF00623D9B /* SearchResultTableViewCell.swift in Sources */,
