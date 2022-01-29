@@ -24,7 +24,7 @@ class SearchResultController: UIViewController {
     private let tableView: UITableView = {
         let table = UITableView()
         table.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.identifier)
-        
+        table.isHidden = true
         return table
     }()
     
@@ -51,6 +51,7 @@ class SearchResultController: UIViewController {
         // tell the table to reload
         //
         self.results = results
+        tableView.isHidden = results.isEmpty
         tableView.reloadData()
     }
 }

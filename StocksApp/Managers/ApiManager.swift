@@ -35,7 +35,11 @@ final class APIManager {
      */
     public func search(query: String, completion: @escaping (Result<SearchResponse, Error>) -> Void)
     {
-        request(url: url(for: .search, queryParams: ["q":query]), expecting: SearchResponse.self, completion: completion)
+        // configure for spaces in search
+        guard let editedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else{
+            return
+        }
+        request(url: url(for: .search, queryParams: ["q":editedQuery]), expecting: SearchResponse.self, completion: completion)
         
     }
     

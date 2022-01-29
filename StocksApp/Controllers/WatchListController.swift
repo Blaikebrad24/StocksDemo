@@ -6,18 +6,36 @@
 //
 
 import UIKit
+import FloatingPanel
 
 class WatchListController: UIViewController {
     
     private var searchTime: Timer?
+    private var panel: FloatingPanelController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
         setUpSearchController()
+        
+        setupFloatingPanel()
         setupTitleView()
     }
+    
+    private func setupFloatingPanel()
+    {
+        let controller = TopStoriesNewsController(type: .topStories)
+        let panel = FloatingPanelController()
+        panel.delegate = self
+        
+        panel.set(contentViewController: controller)
+        panel.surfaceView.backgroundColor = .secondarySystemBackground
+        panel.addPanel(toParent: self)
+        panel.track(scrollView: controller.tableView)
+    }
+    
+
     
     /*
      Function - Private setUpSearchController
@@ -53,9 +71,24 @@ class WatchListController: UIViewController {
 
 }
 
+extension WatchListController: FloatingPanelControllerDelegate {
+    
+    
+    func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
+        navigationItem.titleView?.isHidden = fpc.state == .full
+    }
+    
+}
+
 extension WatchListController: SearchResultsControllerDelegate {
     func searchResultsViewControllerDidSelect(searchResult: SearchResult) {
         print("Did select: \(searchResult.displaySymbol)") // passed back from SearchResultsController
+        navigationItem.searchController?.searchBar.resignFirstResponder()
+        // create another controller to present
+        let stockController = StockDetailsController()
+        let navController = UINavigationController(rootViewController: stockController)
+        stockController.title = searchResult.description
+        present(navController,animated: true)
         
     }
 
@@ -91,6 +124,9 @@ extension WatchListController: UISearchResultsUpdating{
                         resultsVC.update(with: response.result)
                     }
                 case .failure(let error):
+                    DispatchQueue.main.async {
+                        resultsVC.update(with: [])
+                    }
                     print(error)
                 }
             }
