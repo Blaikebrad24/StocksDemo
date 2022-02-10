@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+//        // Override point for customization after application launch.
 //        APIManager.shared.search(query: "") { result in
 //            switch result {
 //            case .success(let response):
@@ -42,7 +42,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func debug()
     {
-        
+        APIManager.shared.news(for: .company(symbol: "MSF")) { result in
+            switch result{
+            case .success(let news):
+                print(news.count)
+            case .failure: break
+                
+            }
+        }
     }
 }
 

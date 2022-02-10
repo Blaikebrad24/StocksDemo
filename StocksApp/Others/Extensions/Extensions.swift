@@ -17,3 +17,20 @@ extension UIView {
     var top: CGFloat{frame.origin.y}
     var bottom: CGFloat{top + height}
 }
+
+extension UIView {
+    func addSubviews(_ views: UIView...)
+    {
+        views.forEach {
+            addSubview($0)
+        }
+    }
+}
+
+extension DateFormatter {
+    static let newsFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY-MM-dd"
+        return formatter
+    }()
+}

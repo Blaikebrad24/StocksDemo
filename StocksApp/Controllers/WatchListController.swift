@@ -71,6 +71,13 @@ class WatchListController: UIViewController {
 
 }
 
+
+/*
+ *
+ *
+ *
+ *
+ */
 extension WatchListController: FloatingPanelControllerDelegate {
     
     
@@ -79,6 +86,13 @@ extension WatchListController: FloatingPanelControllerDelegate {
     }
     
 }
+
+/*
+ *
+ *
+ *
+ *
+ */
 
 extension WatchListController: SearchResultsControllerDelegate {
     func searchResultsViewControllerDidSelect(searchResult: SearchResult) {

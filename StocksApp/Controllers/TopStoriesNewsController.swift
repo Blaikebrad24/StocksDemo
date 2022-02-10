@@ -13,12 +13,19 @@ class TopStoriesNewsController : UIViewController {
     let tableView: UITableView = {
         let table = UITableView()
         table.backgroundColor = .clear
-        
+        table.register(NewsHeaderView.self, forHeaderFooterViewReuseIdentifier: NewsHeaderView.indentifier)
         return table
     }()
     
+    private var stories = [String]()
     private let type: Type
     
+    /*
+     *
+     *
+     *
+     *
+     */
     enum `Type` {
         case topStories
         case company(symbol: String)
@@ -32,11 +39,22 @@ class TopStoriesNewsController : UIViewController {
         }
     }
     
+    /*
+     *
+     *
+     *
+     *
+     */
     init(type: Type){
         self.type = type
         super.init(nibName: nil, bundle: nil)
     }
-    
+    /*
+     *
+     *
+     *
+     *
+     */
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -50,16 +68,34 @@ class TopStoriesNewsController : UIViewController {
         
     }
     
+    /*
+     *
+     *
+     *
+     *
+     */
     private func addViews()
     {
         
     }
     
+    /*
+     *
+     *
+     *
+     *
+     */
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
     }
     
+    /*
+     *
+     *
+     *
+     *
+     */
     private func setUpTable()
     {
         view.addSubview(tableView)
@@ -67,10 +103,19 @@ class TopStoriesNewsController : UIViewController {
         tableView.dataSource = self
     }
     
+    /*
+     *
+     *
+     *
+     *
+     */
     private func fetchNewNews()
     {
         
     }
+    
+    
+    
     
     private func open(url: URL)
     {
@@ -100,10 +145,14 @@ extension TopStoriesNewsController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-       return 70
+        return NewsHeaderView.preferredHeight
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return nil
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: NewsHeaderView.indentifier) as? NewsHeaderView else {
+            return nil
+        }
+        header.configure(with: .init(title: self.type.title, shouldShowAddButton: false))
+        return header
     }
 }
