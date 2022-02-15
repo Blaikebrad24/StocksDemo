@@ -112,9 +112,24 @@ class TopStoriesNewsController : UIViewController {
      *
      *
      */
+    
+    // using weak self because ->
+    // API Mangager has a strong reference to this class
+    // so in order for API Manager to deallocate memory every
+    // time fetNewNews to allocate new memory for this controller
     private func fetchNewNews()
     {
-        
+        APIManager.shared.news(for: type) { [weak self] result in
+            switch result {
+            case .success(let stories):
+                DispatchQueue.main.async {
+                    self?.stories = stories
+                    self?.tableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     

@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                print(error)
 //            }
 //        }
-        debug()
+//        debug()
         
         return true
     }
