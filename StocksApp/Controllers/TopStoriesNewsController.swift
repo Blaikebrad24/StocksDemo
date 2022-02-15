@@ -13,11 +13,14 @@ class TopStoriesNewsController : UIViewController {
     let tableView: UITableView = {
         let table = UITableView()
         table.backgroundColor = .clear
+        table.register(NewStoryTableViewCell.self, forCellReuseIdentifier: NewStoryTableViewCell.identifier)
         table.register(NewsHeaderView.self, forHeaderFooterViewReuseIdentifier: NewsHeaderView.indentifier)
         return table
     }()
     
-    private var stories = [String]()
+    private var stories: [NewStoriesModel] = [
+    NewStoriesModel(category: "tech", datetime: 123, headline: "headline", image: "", related: "related", source: "ABC", summary: "", url: "")]
+    
     private let type: Type
     
     /*
@@ -126,18 +129,20 @@ class TopStoriesNewsController : UIViewController {
 extension TopStoriesNewsController: UITableViewDelegate, UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.backgroundColor = .clear
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: NewStoryTableViewCell.identifier, for: indexPath) as? NewStoryTableViewCell else {
+            fatalError()
+        }
+        cell.configure(with: .init(model: stories[indexPath.row]))
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return stories.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 140
+        return NewStoryTableViewCell.preferredHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
