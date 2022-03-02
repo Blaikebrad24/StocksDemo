@@ -66,10 +66,10 @@ final class APIManager {
             
         case .company(let symbol):
             let today = Date()
-            let oneMonthBack = today.addingTimeInterval(Constants.day * 7)
+            let oneMonthBack = today.addingTimeInterval(-(Constants.day * 3))
             request(
                 url: url(
-                    for: .topStores,
+                    for: .companyNews,
                        queryParams: ["symbol": symbol,
                                      "from": DateFormatter.newsFormatter.string(from: oneMonthBack),
                                      "to": DateFormatter.newsFormatter.string(from: today)

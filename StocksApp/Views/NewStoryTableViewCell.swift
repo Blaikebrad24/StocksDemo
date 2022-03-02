@@ -31,13 +31,13 @@ class NewStoryTableViewCell: UITableViewCell {
     //source
     private let sourceLabel : UILabel = {
        let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .heavy)
+        label.font = .systemFont(ofSize: 14, weight: .medium)
         return label
     }()
     //headline
     private let headlineLabel : UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 24, weight: .medium)
+        label.font = .systemFont(ofSize: 20, weight: .regular)
         label.numberOfLines = 0
         return label
     }()
@@ -46,14 +46,14 @@ class NewStoryTableViewCell: UITableViewCell {
     private let dateLabel: UILabel = {
        let label = UILabel()
     label.font = .systemFont(ofSize: 14, weight: .medium)
-        label.font = .systemFont(ofSize: 24, weight: .regular)
+        label.font = .systemFont(ofSize: 22, weight: .regular)
         return label
     }()
     //Image
     private let storyImageView: UIImageView = {
        let image = UIImageView()
         image.clipsToBounds = true
-        image.backgroundColor = .systemBackground
+//        image.backgroundColor = .systemBackground
         image.contentMode = .scaleAspectFit
         image.layer.cornerRadius = 6
         image.layer.masksToBounds = true
@@ -74,8 +74,8 @@ class NewStoryTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let imagesize: CGFloat = contentView.height-6
-        storyImageView.frame = CGRect(x: contentView.width-imagesize-10, y: 3, width: imagesize, height: imagesize)
+        let imagesize: CGFloat = contentView.height/1.4
+        storyImageView.frame = CGRect(x: contentView.width-imagesize-10, y: (contentView.height - imagesize) / 2, width: imagesize, height: imagesize)
         //adding frames
         let availableWidth: CGFloat = contentView.width - separatorInset.left - imagesize - 10 - 15
         dateLabel.frame = CGRect(x: separatorInset.left, y: contentView.height - 40, width: availableWidth, height: 40)

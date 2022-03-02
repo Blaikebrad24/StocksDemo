@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class TopStoriesNewsController : UIViewController {
     
@@ -32,6 +33,7 @@ class TopStoriesNewsController : UIViewController {
     enum `Type` {
         case topStories
         case company(symbol: String)
+        
         var title: String {
             switch self{
             case .topStories:
@@ -137,7 +139,9 @@ class TopStoriesNewsController : UIViewController {
     
     private func open(url: URL)
     {
-        
+        // opens SF Safari View Controller
+        let vc = SFSafariViewController(url: url)
+        present(vc, animated: true)
     }
 }
 
@@ -161,7 +165,14 @@ extension TopStoriesNewsController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let story = stories[indexPath.row]
+        //open url from selected Story
+        guard let url = URL(string: story.url)
+        else{
+            presentFailedToOpenAlert()
+            return
+        }
+        open(url: url)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -174,5 +185,13 @@ extension TopStoriesNewsController: UITableViewDelegate, UITableViewDataSource
         }
         header.configure(with: .init(title: self.type.title, shouldShowAddButton: false))
         return header
+    }
+    
+    private func presentFailedToOpenAlert()
+    {
+        let alert = UIAlertController(title: "Unable to Open", message: "Unable to open the article", preferredStyle: .alert)
+        present(alert, animated: true)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+        present(alert,animated: true)
     }
 }
