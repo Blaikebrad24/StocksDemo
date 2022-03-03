@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                print(error)
 //            }
 //        }
-//        debug()
+        debug()
         
         return true
     }
@@ -42,14 +42,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func debug()
     {
-        APIManager.shared.news(for: .company(symbol: "MSF")) { result in
-            switch result{
-            case .success(let news):
-                print(news.count)
-            case .failure: break
-                
-            }
-        }
+//        APIManager.shared.marketData(for: "AAPL") { result in
+//
+//            switch result{
+//            case .success(let data):
+//                let candleStick = data.candleStricks
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
     }
 }
 

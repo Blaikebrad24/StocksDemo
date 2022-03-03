@@ -12,13 +12,24 @@ class WatchListController: UIViewController {
     
     private var searchTime: Timer?
     private var panel: FloatingPanelController?
+    
+    //symbol : array of data
+    private var watchlistMap: [String:[CandleStick]] = [:]
+    
+    private let tableView: UITableView = {
+        let table = UITableView()
+        
+        return table
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
         setUpSearchController()
-        
+        setupTableView()
+        setupDataWatchlistData()
+
         setupFloatingPanel()
         setupTitleView()
     }
@@ -66,8 +77,57 @@ class WatchListController: UIViewController {
         navigationItem.titleView = titleView
     }
     
+    private func setupTableView()
+    {
+        view.addSubviews(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    
+private func setupDataWatchlistData()
+    {
+        
+        let symbols = PersistenceManager.shared.watchlist
+        let group = DispatchGroup()
+        
+        for symbol in symbols {
+            //get market data per symbol
+            APIManager.shared.marketData(for: symbol) { [weak self] result in
+                defer {
+                    group.leave()
+                }
+                switch result {
+                case .success(let data):
+                    let candleSticks = data.candleStricks
+                    self?.watchlistMap[symbol] = candleSticks
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
+        group.notify(queue: .main){
+            [weak self] in
+            self?.tableView.reloadData()
+        }
+    }
 
 
+}
+
+extension WatchListController: UITableViewDelegate, UITableViewDataSource
+{
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return watchlistMap.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        //open details
+    }
 }
 
 
