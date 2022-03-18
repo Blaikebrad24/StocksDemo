@@ -13,8 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-//        // Override point for customization after application launch.
-//        APIManager.shared.search(query: "") { result in
+        // Override point for customization after application launch.
+//        APIManager.shared.search(query: "AAPL") { result in
 //            switch result {
 //            case .success(let response):
 //                print(response.result)
@@ -42,15 +42,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func debug()
     {
-//        APIManager.shared.marketData(for: "AAPL") { result in
-//
-//            switch result{
-//            case .success(let data):
-//                let candleStick = data.candleStricks
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
+        APIManager.shared.marketData(for: "GOOG") { result in
+            switch result{
+            case .success(let data):
+                let candleStick = data.candleSticks
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 

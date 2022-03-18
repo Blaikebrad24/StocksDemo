@@ -26,7 +26,7 @@ struct MarketDataResponse: Codable
         case timestamps = "t"
     }
 
-    var candleStricks: [CandleStick]
+    var candleSticks: [CandleStick]
     {
         var result = [CandleStick]()
         for index in 0..<open.count{
@@ -34,10 +34,10 @@ struct MarketDataResponse: Codable
                 .init(date: Date(timeIntervalSince1970: timestamps[index]), high: high[index], low: low[index], open: open[index], close: close[index]))
         }
         
-        let sortedData = result.sorted(by:{ $0.date < $1.date})
-//        print(sortedData[0])
-        return sortedData
-        }
+        let sortedData = result.sorted(by:{ $0.date > $1.date})
+        print(sortedData[0])
+        return sortedData // sortedData is an [CandleStick] in ascending order
+    }
     
 }
 

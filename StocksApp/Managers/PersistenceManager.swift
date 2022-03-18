@@ -22,8 +22,9 @@ final class PersistenceManager {
     //functionality
     
     public var watchlist: [String]{
-        if !hasOnboarded{
+        if hasOnboarded{
             userDefaults.set(true, forKey: Constants.onboardedKey)
+            setUpDefaults()
         }
         return userDefaults.stringArray(forKey: Constants.watchlistKey) ?? []
     }
